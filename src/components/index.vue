@@ -146,8 +146,8 @@ export default {
 
   @media screen and (max-width: 700px){
     .box-card {
-      margin-top: 1em;
-      margin-bottom: 1em;
+      margin-top: 1em!important;
+      margin-bottom: 1em!important;
     }
   }
   .download h3{
