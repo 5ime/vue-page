@@ -25,7 +25,7 @@
               <h4>{{info.title}}</h4>
               <a :href="info.cover" target="_blank"><el-button plain>下载封面</el-button></a>
               <a :href="info.url" target="_blank"><el-button plain>下载视频</el-button></a>
-              <a :href="info.url" v-if="music" target="_blank"><el-button plain>下载音乐</el-button></a>
+              <a :href="info.music" v-if="music" target="_blank"><el-button plain>下载音乐</el-button></a>
             </div>
             <div class="waterfall" v-if="iseen">
               <div class="item" v-for="url in images_url" :key ="url">
