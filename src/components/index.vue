@@ -6,8 +6,8 @@
         </div>
           <h1>短视频/图集在线去水印解析</h1>
           <div class="typo">
-            <p><strong>本站公告 </strong>本站为 <a href="https://tenapi.cn" target="_blank" rel="nofollow">Ten·API </a> 演示页面 <u>图集解析仅抖音/快手/微博可用</u></p>
-            <p><strong>目前支持 </strong>抖音/皮皮虾/火山/微视/微博/绿洲/最右/轻视频/instagram/哔哩哔哩/快手/全民小视频/皮皮搞笑/全民k歌/巴塞电影/陌陌/Before避风/开眼/Vue Vlog/小咖秀/西瓜视频</p>
+            <p><strong>本站公告 </strong>解析失败请留言: <b><a href="https://5ime.cn/guestbook" target="_blank" rel="nofollow"> 留言反馈 </a></b><u>图集解析仅抖音/快手/微博/皮皮虾/最右可用</u></p>
+            <p><strong>目前支持 </strong>皮皮虾/抖音/微视/快手/6间房/哔哩哔哩/微博/绿洲/度小视/开眼/陌陌/皮皮搞笑/全民k歌/逗拍/虎牙/新片场/哔哩哔哩/Acfun/美拍</p>
             <p><strong>温馨提示 </strong>粘贴视频地址时<u>无需删除文案</u><small> 但如果视频链接正确但解析失败请删掉文案后重试</small></p>
           </div>
           <hr>
@@ -25,7 +25,7 @@
               <h4>{{info.title}}</h4>
               <a :href="info.cover" target="_blank"><el-button plain>下载封面</el-button></a>
               <a :href="info.url" target="_blank"><el-button plain>下载视频</el-button></a>
-              <a :href="info.music" v-if="music" target="_blank"><el-button plain>下载音乐</el-button></a>
+              <a :href="info.music.url" v-if="music" target="_blank"><el-button plain>下载音乐</el-button></a>
             </div>
             <div class="waterfall" v-if="iseen">
               <div class="item" v-for="url in images_url" :key ="url">
@@ -59,13 +59,13 @@ export default {
       this.loading = true
       const url = /http[s]?:\/\/[\w.]+[\w/]*[\w.]*\??[\w=&:\-+%]*[/]*/.exec(this.input)
       if(this.select == '1' || this.select == ''){
-        this.axios.get('https://tenapi.cn/video/?url=' + url).then((res) => {
-          if(res.data.url != null){
-            if(res.data.music != null){
+        this.axios.get('https://tenapi.cn/v2/video?url=' + url).then((res) => {
+          if(res.data.code == 200){
+            if(res.data.data.music != null){
               this.music = true
             }
             this.seen = true
-            this.info = res.data
+            this.info = res.data.data
             this.loading = false
             this.$notify.success({
               title: '解析成功',
@@ -82,11 +82,11 @@ export default {
         })
       }else{
         this.seen = false
-        this.axios.get('https://tenapi.cn/images/?url=' + url).then((res) => {
+        this.axios.get('https://tenapi.cn/v2/images?url=' + url).then((res) => {
           if(res.data.code == 200){
             this.iseen = true
             this.loading = false
-            this.images_url = res.data.images
+            this.images_url = res.data.data.images
             this.$notify.success({
               title: '解析成功',
               message: '图集暂不支持批量下载，请长按下载或右键另存为'
