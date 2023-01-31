@@ -6,8 +6,8 @@
         </div>
           <h1>短视频/图集在线去水印解析</h1>
           <div class="typo">
-            <p><strong>本站公告 </strong>解析失败请留言: <b><a href="https://5ime.cn/guestbook" target="_blank" rel="nofollow"> 留言反馈 </a></b><u>图集解析仅抖音/快手/微博/皮皮虾/最右可用</u></p>
-            <p><strong>目前支持 </strong>皮皮虾/抖音/微视/快手/6间房/哔哩哔哩/微博/绿洲/度小视/开眼/陌陌/皮皮搞笑/全民k歌/逗拍/虎牙/新片场/哔哩哔哩/Acfun/美拍</p>
+            <p><strong>本站公告 </strong>解析失败请留言<b><a href="https://5ime.cn/guestbook" target="_blank" rel="nofollow"> 留言反馈 </a></b><u>图集解析仅抖音/快手/微博/皮皮虾/最右/皮皮搞笑可用</u></p>
+            <p><strong>目前支持 </strong>皮皮虾/抖音/微视/快手/6间房/哔哩哔哩/微博/绿洲/度小视/开眼/陌陌/皮皮搞笑/全民k歌/逗拍/虎牙/新片场/哔哩哔哩/Acfun/美拍/西瓜视频/火山小视频/网易云Mlog</p>
             <p><strong>温馨提示 </strong>粘贴视频地址时<u>无需删除文案</u><small> 但如果视频链接正确但解析失败请删掉文案后重试</small></p>
           </div>
           <hr>
@@ -56,10 +56,12 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.seen = false
+      this.iseen = false
       this.loading = true
-      const url = /http[s]?:\/\/[\w.]+[\w/]*[\w.]*\??[\w=&:\-+%]*[/]*/.exec(this.input)
+      const url = /(https?|http):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/.exec(this.input)
       if(this.select == '1' || this.select == ''){
-        this.axios.get('https://tenapi.cn/v2/video?url=' + url).then((res) => {
+        this.axios.get('https://tenapi.cn/v2/video?url=' + encodeURIComponent(url[0])).then((res) => {
           if(res.data.code == 200){
             if(res.data.data.music != null){
               this.music = true
@@ -82,7 +84,7 @@ export default {
         })
       }else{
         this.seen = false
-        this.axios.get('https://tenapi.cn/v2/images?url=' + url).then((res) => {
+        this.axios.get('https://tenapi.cn/v2/images?url=' + encodeURIComponent(url[0])).then((res) => {
           if(res.data.code == 200){
             this.iseen = true
             this.loading = false
